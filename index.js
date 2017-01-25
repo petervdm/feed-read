@@ -59,7 +59,15 @@ FeedRead.identify = function(xml) {
 // callback - Receives `(err, articles)`.
 // 
 FeedRead.get = function(feed_url, callback) {
-  request(feed_url, {timeout: 5000}, function(err, res, body) {
+
+  var options = {
+      url: feed_url,
+      headers: {
+          'Accept': 'application/atom+xml'
+      }
+  };
+
+  request(options, {timeout: 5000}, function(err, res, body) {
     if (err) return callback(err);
     var type = FeedRead.identify(body);
     if (type == "atom") {
